@@ -6,436 +6,209 @@
     <title>RetopoFlow | Автоматическая ретопология для игровых моделей</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Inter:wght@300;400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#0B0F17',
+                        accent1: '#00E5FF',
+                        accent2: '#FF2D95', 
+                        accent3: '#7B61FF',
+                        neutraltext: '#D6E3FF',
+                        neutralsecondary: '#A8B3C8',
+                        metallic: '#C7CBD3',
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                        jetbrains: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'progress': 'progress 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { 'box-shadow': '0 0 5px rgba(0, 229, 255, 0.5)' },
+                            '50%': { 'box-shadow': '0 0 20px rgba(0, 229, 255, 0.8), 0 0 30px rgba(0, 229, 255, 0.4)' }
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'progress': {
+                            '0%': { left: '-100%' },
+                            '100%': { left: '100%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-primary: #0B0F17;
-            --accent-cyan: #00E5FF;
-            --accent-magenta: #FF2D95;
-            --accent-violet: #7B61FF;
-            --text-primary: #D6E3FF;
-            --text-secondary: #A8B3C8;
-            --border-metal: #C7CBD3;
+        html {
+            scroll-behavior: smooth;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: #0B0F17;
+            color: #D6E3FF;
             overflow-x: hidden;
         }
-
+        
         h1, h2, h3, h4 {
             font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            line-height: 1.2;
         }
-
-        code, pre {
+        
+        .code-block {
             font-family: 'JetBrains Mono', monospace;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        
+        .section-border {
+            border-bottom: 1px solid rgba(123, 97, 255, 0.2);
         }
-
-        section {
-            padding: 100px 0;
-            border-bottom: 1px solid rgba(123, 97, 255, 0.1);
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 0;
-            background-color: rgba(11, 15, 23, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(123, 97, 255, 0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--accent-cyan);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo span {
-            margin-left: 8px;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 30px;
-        }
-
-        nav ul li a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent-cyan);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 4px;
-            font-weight: 500;
-            text-decoration: none;
+        
+        .neon-glow:hover {
+            filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.7));
             transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-family: 'Inter', sans-serif;
         }
-
-        .btn-primary {
-            background-color: var(--accent-cyan);
-            color: var(--bg-primary);
+        
+        .neon-glow-accent2:hover {
+            filter: drop-shadow(0 0 8px rgba(255, 45, 149, 0.7));
+            transition: all 0.3s ease;
         }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
-            transform: translateY(-2px);
+        
+        .subtle-glow {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
         }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--accent-magenta);
-            border: 1px solid var(--accent-magenta);
-        }
-
-        .btn-secondary:hover {
-            box-shadow: 0 0 15px rgba(255, 45, 149, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding-top: 150px;
-            display: flex;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 52px;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .hero-text p {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 15px;
-        }
-
-        .hero-visual {
+        
+        .gradient-border {
             position: relative;
+            background: linear-gradient(135deg, #0B0F17, #0B0F17) padding-box,
+                        linear-gradient(135deg, #00E5FF, #7B61FF) border-box;
+            border: 1px solid transparent;
         }
-
-        .model-viewer {
-            width: relative;
+        
+        .before-after-container {
+            position: relative;
+            width: 100%;
             height: 400px;
-            background: linear-gradient(135deg, rgba(123, 97, 255, 0.1) 0%, rgba(0, 229, 255, 0.1) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
             overflow: hidden;
+            border-radius: 8px;
         }
-
-        .model-viewer::before {
-            content: '';
+        
+        .before-image, .after-image {
             position: absolute;
             top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-radius: 8px;
-            pointer-events: none;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .trust-badge {
-            display: inline-flex;
-            align-items: center;
-            background-color: rgba(123, 97, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-top: 30px;
-            font-size: 14px;
-        }
-
-        .trust-badge span {
-            margin-right: 8px;
-        }
-
-        .client-logos {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .client-logo {
-            height: 30px;
-            opacity: 0.7;
-            filter: brightness(0) invert(1);
-        }
-
-        /* Problem Section */
-        .problem-section h2 {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .problem-card {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 30px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .problem-card:hover {
-            border-color: var(--accent-violet);
-            transform: translateY(-5px);
-        }
-
-        .problem-icon {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 45, 149, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .problem-card h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .problem-card p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .problem-metrics {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .metric {
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent-magenta);
-        }
-
-        .metric-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Features Section */
-        .features-section h2 {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 30px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            border-color: var(--accent-cyan);
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background-color: rgba(0, 229, 255, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        /* Demo Section */
-        .demo-section {
-            text-align: center;
-        }
-
-        .demo-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .demo-section p {
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 50px;
-        }
-
-        .demo-container {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 30px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            margin-bottom: 40px;
-        }
-
-        .demo-viewer {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .model-comparison {
-            position: relative;
-            height: 300px;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            border: 1px solid rgba(123, 97, 255, 0.2);
-        }
-
-        .comparison-container {
-            position: relative;
-            flex: 1;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .comparison-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        .comparison-divider {
+        
+        .before-image {
+            width: 50%;
+            overflow: hidden;
+        }
+        
+        .slider-handle {
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, var(--accent-cyan), transparent);
+            width: 4px;
+            background: #00E5FF;
+            cursor: ew-resize;
             transform: translateX(-50%);
-            z-index: 2;
         }
-
-        .comparison-divider::before {
+        
+        .slider-handle::after {
             content: '';
             position: absolute;
-            top: 50%;
             left: 50%;
+            top: 50%;
             width: 40px;
             height: 40px;
-            background-color: var(--bg-primary);
-            border: 2px solid var(--accent-cyan);
+            background: #0B0F17;
+            border: 2px solid #00E5FF;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: var(--accent-cyan);
         }
-
+        
+        .slider-handle::before {
+            content: '↔';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #00E5FF;
+            font-size: 16px;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(123, 97, 255, 0.1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(123, 97, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, rgba(11, 15, 23, 0.8), rgba(33, 38, 58, 0.4));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(123, 97, 255, 0.2);
+        }
+        
+        .loading-bar {
+            position: relative;
+            overflow: hidden;
+            height: 3px;
+            background: rgba(168, 179, 200, 0.2);
+        }
+        
+        .loading-progress {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, transparent, #00E5FF, transparent);
+            animation: progress 2s ease-in-out infinite;
+        }
+        
+        .problem-card, .case-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(123, 97, 255, 0.1);
+        }
+        
+        .problem-card:hover, .case-card:hover {
+            transform: translateY(-5px);
+            border: 1px solid rgba(123, 97, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+        }
+        
+        .comparison-container {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .comparison-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
         .comparison-label {
             position: absolute;
             top: 15px;
@@ -445,539 +218,228 @@
             font-size: 14px;
             z-index: 5;
         }
-
+        
         .before-label {
             left: 15px;
-            color: var(--accent-magenta);
+            color: #FF2D95;
         }
-
+        
         .after-label {
             right: 15px;
-            color: var(--accent-cyan);
+            color: #00E5FF;
         }
-
-        .demo-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .demo-metric {
-            background: rgba(11, 15, 23, 0.6);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .demo-metric-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .demo-metric-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Cases Section */
-        .cases-section {
-            background: rgba(8, 12, 20, 0.8);
-        }
-
-        .cases-section h2 {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-        }
-
-        .case-card {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 30px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .case-card:hover {
-            border-color: var(--accent-violet);
-            transform: translateY(-5px);
-        }
-
-        .case-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .case-title {
-            font-size: 20px;
-            color: var(--accent-cyan);
-        }
-
-        .case-stats {
-            display: flex;
-            gap: 15px;
-        }
-
-        .case-stat {
-            text-align: center;
-        }
-
-        .case-stat-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--accent-magenta);
-        }
-
-        .case-stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .case-comparison {
+        
+        .model-comparison {
             position: relative;
-            height: 200px;
+            height: 300px;
             border-radius: 8px;
             overflow: hidden;
             display: flex;
-            margin-bottom: 20px;
             border: 1px solid rgba(123, 97, 255, 0.2);
         }
-
-        .case-description {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            text-align: center;
-        }
-
-        .contact-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .contact-section p {
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 50px;
-        }
-
-        .contact-form {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 40px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(11, 15, 23, 0.8);
-            border: 1px solid rgba(123, 97, 255, 0.2);
-            border-radius: 4px;
-            color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.1);
-        }
-
-        textarea.form-control {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Pricing Section */
-        .pricing-section h2 {
-            font-size: 36px;
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        .pricing-card {
-            background: rgba(18, 23, 35, 0.6);
-            border-radius: 8px;
-            padding: 40px 30px;
-            border: 1px solid rgba(123, 97, 255, 0.1);
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--accent-cyan);
-            transform: scale(1.05);
-        }
-
-        .pricing-card.featured::before {
-            content: 'Популярный';
+        
+        .comparison-divider {
             position: absolute;
-            top: -10px;
             left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #00E5FF, transparent);
             transform: translateX(-50%);
-            background-color: var(--accent-cyan);
-            color: var(--bg-primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
+            z-index: 2;
         }
-
-        .pricing-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
+        
+        .sketchfab-embed-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
         }
-
-        .pricing-price {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--accent-violet);
+        
+        .sketchfab-embed-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-
-        .enterprise-price {
-            font-size: 24px;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-        }
-
-        .pricing-period {
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin: 30px 0;
-            text-align: left;
-        }
-
-        .pricing-features li {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .pricing-features li::before {
-            content: '✓';
-            color: var(--accent-cyan);
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        /* Footer */
-        footer {
-            padding: 80px 0 40px;
-            background-color: rgba(8, 12, 20, 0.8);
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .footer-logo {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .footer-description {
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-
-        .footer-links h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links ul li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links ul li a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links ul li a:hover {
-            color: var(--accent-cyan);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid rgba(123, 97, 255, 0.1);
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .problem-grid,
-            .features-grid,
-            .pricing-grid,
-            .cases-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .demo-viewer {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
+        
         @media (max-width: 768px) {
-            .header-content {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .before-after-container, .model-comparison {
+                height: 300px;
+            }
+            
+            .model-comparison {
                 flex-direction: column;
-                gap: 20px;
             }
             
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 10px 10px;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .hero-actions .btn {
-                width: 100%;
-                text-align: center;
-            }
-            
-            .demo-metrics {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-
-            .model-comparison,
-            .case-comparison {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            /* .comparison-container {
-                height: 200px;
-            } */
-
             .comparison-divider {
                 display: none;
             }
-
-            .case-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-
-            .case-stats {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .contact-form {
-                padding: 20px;
-            }
-
-            .hero-video,
-            .comparison-video {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 8px;
-            }
             
-            .model-viewer,
-            .comparison-container {
-                position: relative;
+            .sketchfab-embed-wrapper {
+                height: 300px;
             }
-
-            .hero-video,
-            .comparison-video {
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 1;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <span>RetopoFlow</span>
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="#features">Возможности</a></li>
-                        <li><a href="#demo">Демо</a></li>
-                        <li><a href="#cases">Кейсы</a></li>
-                        <li><a href="#pricing">Цены</a></li>
-                        <li><a href="#community">Сообщество</a></li>
-                        <li><a href="#contact">Контакты</a></li>
-                    </ul>
-                </nav>
-                <div class="header-actions">
-                    <a href="#" class="btn btn-secondary">Войти</a>
-                    <a href="#" class="btn btn-primary">Попробовать</a>
+<body class="bg-background text-neutraltext">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-background/90 backdrop-blur-md border-b border-accent3/20">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 rounded-md bg-gradient-to-br from-accent1 to-accent3 flex items-center justify-center">
+                    <i class="fas fa-bolt text-white text-sm"></i>
                 </div>
+                <span class="font-orbitron text-xl font-bold">Retopo<span class="text-accent1">Flow</span></span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8">
+                <a href="#features" class="font-medium hover:text-accent1 transition-colors duration-300">Возможности</a>
+                <a href="#how-it-works" class="font-medium hover:text-accent1 transition-colors duration-300">Как это работает</a>
+                <a href="#demo" class="font-medium hover:text-accent1 transition-colors duration-300">Демо</a>
+                <a href="#metrics" class="font-medium hover:text-accent1 transition-colors duration-300">Метрики</a>
+                <a href="#integration" class="font-medium hover:text-accent1 transition-colors duration-300">Интеграция</a>
+                <a href="#pricing" class="font-medium hover:text-accent1 transition-colors duration-300">Цены</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 rounded-md font-medium border border-accent3/30 hover:bg-accent3/10 transition-all duration-300 neon-glow-accent2">
+                    Войти
+                </button>
+                <button class="px-4 py-2 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 neon-glow">
+                    Попробовать
+                </button>
+                
+                <button class="md:hidden text-xl" id="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
-    </header>
+        
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-background/95 backdrop-blur-md border-t border-accent3/20" id="mobile-menu">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#features" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Возможности</a>
+                <a href="#how-it-works" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Как это работает</a>
+                <a href="#demo" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Демо</a>
+                <a href="#metrics" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Метрики</a>
+                <a href="#integration" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Интеграция</a>
+                <a href="#pricing" class="font-medium hover:text-accent1 transition-colors duration-300 py-2">Цены</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Быстрая интеллектуальная ретопология 3D-моделей</h1>
-                    <p>Для ваших игровых ассетов, требующих быстрой интеграции в продакшен.</p>
-                    <div class="hero-actions">
-                        <a href="mailto:dimensionkernel@gmail.com" class="btn btn-primary">Попробовать демо</a>
-                        <a href="mailto:dimensionkernel@gmail.com" class="btn btn-secondary">Запросить интеграцию</a>
+    <section class="pt-32 pb-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="hero-title font-orbitron font-bold text-5xl md:text-6xl leading-tight mb-6">
+                        Быстрая интеллектуальная ретопология 3D-моделей
+                    </h1>
+                    <p class="text-xl text-neutralsecondary mb-8">
+                        Для ваших игровых ассетов, требующих быстрой интеграции в продакшен.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <button class="px-6 py-3 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 flex items-center justify-center neon-glow">
+                            <i class="fas fa-play-circle mr-2"></i> Попробовать демо
+                        </button>
+                        <button class="px-6 py-3 rounded-md font-medium border border-accent1/50 text-accent1 hover:bg-accent1/10 transition-all duration-300 flex items-center justify-center neon-glow">
+                            <i class="fas fa-download mr-2"></i> Запросить интеграцию
+                        </button>
                     </div>
-                    <div class="trust-badge">
-                        <span>Замена классическим подходам и инструментам при профессиональной ретопологии:</span>
-                    </div>
-                    <div class="client-logos">
-                        <div class="client-logo">Quad Remesher</div>
-                        <div class="client-logo">ZRemesher</div>
-                        <div class="client-logo">Nanite</div>
+                    <div class="mt-8 p-4 rounded-lg bg-accent3/10 border border-accent3/20">
+                        <p class="text-neutralsecondary text-sm">
+                            <i class="fas fa-shield-alt mr-2 text-accent3"></i> Замена классическим подходам и инструментам при профессиональной ретопологии:
+                        </p>
+                        <div class="flex flex-wrap gap-4 mt-3">
+                            <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-sm">Quad Remesher</div>
+                            <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-sm">ZRemesher</div>
+                            <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-sm">Nanite</div>
+                        </div>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="model-viewer">
-                        <iframe class="comparison-video" src="https://drive.google.com/file/d/1qcFNTfCRwQ69dHYEw36bT1WrHWHzMpia/preview?autoplay=260" width="640" height="400" allow="autoplay"></iframe>
+                
+                <div class="md:w-1/2 relative">
+                    <div class="relative rounded-xl overflow-hidden subtle-glow gradient-border p-1 animate-float">
+                        <div class="before-after-container">
+                            <div class="before-image">
+                                <img src="https://drive.google.com/thumbnail?id=1pXWFgiULeHlL63p9oyOb6EcFBMpLWLFf&sz=w2000" alt="До ретопологии" class="w-full h-full object-cover">
+                                <div class="absolute top-4 left-4 bg-background/70 px-3 py-1 rounded text-sm font-medium text-accent2">До</div>
+                            </div>
+                            <div class="after-image">
+                                <img src="https://drive.google.com/thumbnail?id=1jpv0ditNDu9XBm3KDzEvJuPCyO5fKhhg&sz=w2000" alt="После ретопологии" class="w-full h-full object-cover">
+                                <div class="absolute top-4 right-4 bg-background/70 px-3 py-1 rounded text-sm font-medium text-accent1">После</div>
+                            </div>
+                            <div class="slider-handle"></div>
+                        </div>
                     </div>
+                    
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent1/10 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-accent3/10 rounded-full blur-xl"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Problem Section -->
-    <section class="problem-section">
-        <div class="container">
-            <h2>Проблемы, которые мы решаем</h2>
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 8V12L15 15" stroke="#FF2D95" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="12" cy="12" r="10" stroke="#FF2D95" stroke-width="2"/>
-                        </svg>
+    <section class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Проблемы, которые мы решаем</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="problem-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent2/10 flex items-center justify-center mb-4 text-accent2">
+                        <i class="fas fa-clock text-xl"></i>
                     </div>
-                    <h3>Потеря времени на ручную работу</h3>
-                    <p>Художники тратят часы на создание чистой топологии для моделей, используемых в AAA-проектах.</p>
-                    <div class="problem-metrics">
-                        <div class="metric">
-                            <div class="metric-value">8-12ч</div>
-                            <div class="metric-label">на модель</div>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Потеря времени на ручную работу</h3>
+                    <p class="text-neutralsecondary mb-4">Художники тратят часы на создание чистой топологии для моделей, используемых в AAA-проектах.</p>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-orbitron font-bold text-accent2 mb-1">8-12ч</div>
+                            <div class="text-neutralsecondary text-sm">на модель</div>
                         </div>
                     </div>
                 </div>
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7 8H17M7 12H17M7 16H13" stroke="#FF2D95" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M3 5H21V19H3V5Z" stroke="#FF2D95" stroke-width="2"/>
-                        </svg>
+                
+                <div class="problem-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent2/10 flex items-center justify-center mb-4 text-accent2">
+                        <i class="fas fa-gamepad text-xl"></i>
                     </div>
-                    <h3>Несоответствие стандартам движка</h3>
-                    <p>Топология не оптимизирована под требования конкретного игрового движка.</p>
-                    <div class="problem-metrics">
-                        <div class="metric">
-                            <div class="metric-value">до 70%</div>
-                            <div class="metric-label">моделей требуют доработки</div>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Несоответствие стандартам движка</h3>
+                    <p class="text-neutralsecondary mb-4">Топология не оптимизирована под требования конкретного игрового движка.</p>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-orbitron font-bold text-accent2 mb-1">до 70%</div>
+                            <div class="text-neutralsecondary text-sm">моделей требуют доработки</div>
                         </div>
                     </div>
                 </div>
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FF2D95" stroke-width="2"/>
-                            <path d="M15 9L9 15" stroke="#FF2D95" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M9 9L15 15" stroke="#FF2D95" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+                
+                <div class="problem-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent2/10 flex items-center justify-center mb-4 text-accent2">
+                        <i class="fas fa-layer-group text-xl"></i>
                     </div>
-                    <h3>Ручное создание LOD</h3>
-                    <p>Неправильное создание LOD приводит к визуальным артефактам в играх.</p>
-                    <div class="problem-metrics">
-                        <div class="metric">
-                            <div class="metric-value">до 15%</div>
-                            <div class="metric-label">времени на создание LOD</div>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Ручное создание LOD</h3>
+                    <p class="text-neutralsecondary mb-4">Неправильное создание LOD приводит к визуальным артефактам в играх.</p>
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-center">
+                            <div class="text-2xl font-orbitron font-bold text-accent2 mb-1">до 15%</div>
+                            <div class="text-neutralsecondary text-sm">времени на создание LOD</div>
                         </div>
                     </div>
                 </div>
@@ -986,128 +448,385 @@
     </section>
 
     <!-- Features Section -->
-    <section class="features-section" id="features">
-        <div class="container">
-            <h2>Ключевые возможности</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#00E5FF" stroke-width="2"/>
-                            <path d="M19.4 15C19.2669 15.9324 18.9623 16.8332 18.5025 17.6545C18.0427 18.4758 17.4363 19.2015 16.7183 19.7913C16.0003 20.381 15.1846 20.8234 14.3158 21.0942C13.4469 21.365 12.5416 21.459 11.6445 21.3716C10.7474 21.2842 9.87613 21.0172 9.07851 20.5856C8.28089 20.154 7.57256 19.5661 6.9943 18.8556C6.41604 18.1451 5.97895 17.3257 5.70747 16.4446C5.43598 15.5635 5.33545 14.638 5.4114 13.7191" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M18.4 8C18.5331 7.06764 18.8377 6.16684 19.2975 5.34552C19.7573 4.5242 20.3637 3.79852 21.0817 3.20877C21.7997 2.61902 22.6154 2.17663 23.4842 1.90585C24.3531 1.63507 25.2584 1.54103 26.1555 1.62843C27.0526 1.71584 27.9239 1.98284 28.7215 2.41443C29.5191 2.84603 30.2274 3.43394 30.8057 4.14444C31.384 4.85494 31.821 5.67427 32.0925 6.55538C32.364 7.43649 32.4645 8.36197 32.3886 9.28092" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+    <section id="features" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Ключевые возможности</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="feature-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent1/10 flex items-center justify-center mb-4 text-accent1">
+                        <i class="fas fa-robot text-xl"></i>
                     </div>
-                    <h3>Автоматическая ретопология</h3>
-                    <p>Преобразуйте высокополигональные модели в оптимизированную игровую топологию с важных сохранением деталей.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее</a>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Автоматическая ретопология</h3>
+                    <p class="text-neutralsecondary mb-4">Преобразуйте высокополигональные модели в оптимизированную игровую топологию с важных сохранением деталей.</p>
+                    <div class="mt-4 flex items-center text-neutralsecondary">
+                        <i class="fas fa-bolt text-accent1 mr-2"></i>
+                        <span class="text-sm">Интеллектуальные алгоритмы анализа геометрии</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-neutralsecondary">
+                        <i class="fas fa-magic text-accent1 mr-2"></i>
+                        <span class="text-sm">Автоматическое определение важных деталей</span>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V12" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M18.375 2.625C18.6734 2.32663 19.0681 2.14657 19.486 2.11871C19.9039 2.09085 20.3182 2.21708 20.652 2.474C20.9858 2.73092 21.2164 3.10104 21.3 3.515C21.3836 3.92896 21.3144 4.35948 21.105 4.725L13.105 17.725C12.9518 17.9981 12.7266 18.2238 12.4533 18.3772C12.18 18.5305 11.8692 18.6057 11.555 18.595L9 18.5L9.595 16.055C9.639 15.834 9.744 15.629 9.9 15.465L17.9 2.465C18.0759 2.23722 18.3208 2.07019 18.6 1.988C18.6799 1.96423 18.7631 1.95215 18.8466 1.95215C18.93 1.95215 19.0132 1.96423 19.093 1.988C19.2659 2.03756 19.4268 2.11968 19.567 2.23L18.375 2.625Z" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                
+                <div class="feature-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent1/10 flex items-center justify-center mb-4 text-accent1">
+                        <i class="fas fa-sliders-h text-xl"></i>
                     </div>
-                    <h3>Профили под движки</h3>
-                    <p>Предустановленные настройки для Unity, Unreal Engine и мобильных платформ.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее</a>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Профили под движки</h3>
+                    <p class="text-neutralsecondary mb-4">Предустановленные настройки для Unity, Unreal Engine и мобильных платформ для бесшовного переноса ваших работ без потери в качестве. </p>
+                    <div class="mt-4 flex items-center text-neutralsecondary">
+                        <i class="fab fa-unity text-accent1 mr-2"></i>
+                        <span class="text-sm">Оптимизация под Unity и Unreal Engine</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-neutralsecondary">
+                        <i class="fas fa-mobile-alt text-accent1 mr-2"></i>
+                        <span class="text-sm">Специальные профили для мобильных платформ</span>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14 2V8H20" stroke="#00E5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16 13H8" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M16 17H8" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M10 9H9H8" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+                
+                <div class="feature-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent1/10 flex items-center justify-center mb-4 text-accent1">
+                        <i class="fas fa-layer-group text-xl"></i>
                     </div>
-                    <h3>Автоматическое создание LOD</h3>
-                    <p>Интеллектуальная генерация LOD с минимальным количеством швов и оптимальным использованием пространства под выставленные квоты.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее</a>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Автоматическое создание LOD</h3>
+                    <p class="text-neutralsecondary mb-4">Интеллектуальная генерация LOD с минимальным количеством швов и оптимальным использованием пространства под выставленные квоты.</p>
+                    <div class="mt-4 flex items-center text-neutralsecondary">
+                        <i class="fas fa-code-branch text-accent1 mr-2"></i>
+                        <span class="text-sm">Автоматические уровни детализации</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-neutralsecondary">
+                        <i class="fas fa-cogs text-accent1 mr-2"></i>
+                        <span class="text-sm">Настраиваемые параметры оптимизации</span>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 12H16" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M12 16V8" stroke="#00E5FF" stroke-width="2" stroke-linecap="round"/>
-                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="#00E5FF" stroke-width="2"/>
-                        </svg>
+                
+                <div class="feature-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="w-12 h-12 rounded-lg bg-accent1/10 flex items-center justify-center mb-4 text-accent1">
+                        <i class="fas fa-cubes text-xl"></i>
                     </div>
-                    <h3>Пакетная обработка</h3>
-                    <p>Обрабатывайте десятки моделей одновременно с настраиваемыми профилями для каждого типа объектов.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее</a>
+                    <h3 class="font-orbitron font-bold text-xl mb-2">Пакетная обработка</h3>
+                    <p class="text-neutralsecondary mb-4">Обрабатывайте десятки моделей одновременно с настраиваемыми профилями под свои задачи для каждого типа объектов.</p>
+                    <div class="mt-4 flex items-center text-neutralsecondary">
+                        <i class="fas fa-bolt text-accent1 mr-2"></i>
+                        <span class="text-sm">Параллельная обработка нескольких моделей</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-neutralsecondary">
+                        <i class="fas fa-project-diagram text-accent1 mr-2"></i>
+                        <span class="text-sm">Индивидуальные настройки для каждого типа объектов</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Как работает RetopoFlow</h2>
+                <p class="text-xl text-neutralsecondary max-w-2xl mx-auto">Среднее время обработки: 30-70 минут на модель (зависит от количества полигонов)</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
+                <div class="md:w-5/12 mb-10 md:mb-0">
+                    <div class="flex items-start mb-8">
+                        <div class="w-10 h-10 rounded-full bg-accent1/20 flex items-center justify-center text-accent1 font-bold mr-4 flex-shrink-0">1</div>
+                        <div>
+                            <h3 class="font-orbitron font-bold text-xl mb-2">Импортируйте вашу модель</h3>
+                            <p class="text-neutralsecondary">Загрузите вашу высокополигональную модель в формате OBJ, FBX или GLTF. Наша система автоматически анализирует геометрию.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start mb-8">
+                        <div class="w-10 h-10 rounded-full bg-accent3/20 flex items-center justify-center text-accent3 font-bold mr-4 flex-shrink-0">2</div>
+                        <div>
+                            <h3 class="font-orbitron font-bold text-xl mb-2">Настройте параметры</h3>
+                            <p class="text-neutralsecondary">Установите целевое количество полигонов, определите важные edge loops и укажите требования к LOD.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-full bg-accent2/20 flex items-center justify-center text-accent2 font-bold mr-4 flex-shrink-0">3</div>
+                        <div>
+                            <h3 class="font-orbitron font-bold text-xl mb-2">Экспортируйте и интегрируйте</h3>
+                            <p class="text-neutralsecondary">Скачайте оптимизированные модели с чистой топологией, готовые для анимации и интеграции в игровые движки.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-6/12 relative">
+                    <div class="rounded-xl overflow-hidden gradient-border p-1 subtle-glow">
+                        <div class="bg-gradient-to-br from-background to-accent3/5 p-6 rounded-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="font-jetbrains text-accent1">RetopoFlow Processing</div>
+                                <div class="flex space-x-1">
+                                    <div class="w-3 h-3 rounded-full bg-accent2"></div>
+                                    <div class="w-3 h-3 rounded-full bg-accent1"></div>
+                                    <div class="w-3 h-3 rounded-full bg-accent3"></div>
+                                </div>
+                            </div>
+                            <div class="bg-background rounded p-4 font-jetbrains text-sm mb-4">
+                                <div class="text-neutralsecondary">> retopoflow --input character_highpoly.fbx</div>
+                                <div class="text-neutralsecondary ml-4">--output character_optimized.fbx</div>
+                                <div class="text-neutralsecondary ml-4">--polycount 15000 --lod 3</div>
+                                <div class="text-accent1 mt-2">Analyzing mesh structure...</div>
+                                <div class="text-accent1">Generating optimized topology...</div>
+                                <div class="text-accent1">Processing... [==================] 100%</div>
+                                <div class="text-accent1">Complete! Saved to character_optimized.fbx</div>
+                            </div>
+                            <div class="flex justify-between text-xs text-neutralsecondary">
+                                <div>Status: <span class="text-accent1">Complete</span></div>
+                                <div>Time: <span class="text-accent1">4m 23s</span></div>
+                                <div>Polygons: <span class="text-accent1">15,342</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Demo Section -->
-    <section class="demo-section" id="demo">
-        <div class="container">
-            <h2>Посмотрите на результат</h2>
-            <p>Интерактивная демонстрация показывает, как наша технология преобразует высокополигональные модели в оптимизированные игровые ассеты.</p>
+    <section id="demo" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Посмотрите на результат</h2>
+                <p class="text-xl text-neutralsecondary max-w-2xl mx-auto">Интерактивная демонстрация показывает, как наша технология преобразует высокополигональные модели в оптимизированные игровые ассеты.</p>
+            </div>
             
-            <div class="demo-container">
-                <div class="demo-viewer">
-                    <div class="model-comparison">
-                        <div class="comparison-container">
-                            <!-- Захардкоженное изображение "До" -->
-                            <img src="https://drive.google.com/thumbnail?id=1pXWFgiULeHlL63p9oyOb6EcFBMpLWLFf&sz=w2000" alt="До ретопологии" class="comparison-image">
-                            <div class="comparison-label before-label">До</div>
-                        </div>
-                        <div class="comparison-divider"></div>
-                        <div class="comparison-container">
-                            <!-- Захардкоженное изображение "После" -->
-                            <img src="https://drive.google.com/thumbnail?id=1jpv0ditNDu9XBm3KDzEvJuPCyO5fKhhg&sz=w2000" alt="После ретопологии" class="comparison-image">
-                            <div class="comparison-label after-label">После</div>
+            <div class="rounded-xl gradient-border p-1 mb-8">
+                <div class="bg-gradient-to-br from-background to-accent3/5 p-8 rounded-lg">
+                    <div class="sketchfab-embed-wrapper">
+                        <iframe title="Sci-fi Helmet - Retopology Example" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/8376a1256d1542649f1fba3b91a474c1/embed?autospin=1&autostart=1&ui_theme=dark"> </iframe>
+                    </div>
+                    
+                    <div class="text-center mt-6">
+                        <h3 class="font-orbitron font-bold text-2xl mb-4">Метрики процесса</h3>
+                        <p class="text-neutralsecondary mb-6">Сравните показатели до и после обработки:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="metric-card rounded-xl p-6 text-center">
+                                <div class="text-2xl font-orbitron font-bold text-accent1 mb-2">875k → 19k</div>
+                                <div class="text-neutralsecondary text-sm">Полигонов</div>
+                            </div>
+                            
+                            <div class="metric-card rounded-xl p-6 text-center">
+                                <div class="text-2xl font-orbitron font-bold text-accent2 mb-2">6ч → 30мин</div>
+                                <div class="text-neutralsecondary text-sm">Время обработки</div>
+                            </div>
+                            
+                            <div class="metric-card rounded-xl p-6 text-center">
+                                <div class="text-2xl font-orbitron font-bold text-accent3 mb-2">0</div>
+                                <div class="text-neutralsecondary text-sm">Артефактов</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="demo-stats">
-                        <h3>Метрики процесса</h3>
-                        <p>Сравните показатели до и после обработки:</p>
-                        <div class="demo-metrics">
-                            <div class="demo-metric">
-                                <div class="demo-metric-value">875k → 19k</div>
-                                <div class="demo-metric-label">Полигонов</div>
+                    
+                    <div class="text-center mt-8">
+                        <button class="px-6 py-3 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 neon-glow">
+                            Загрузить свою модель
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Section -->
+    <section id="metrics" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Доказанные метрики производительности</h2>
+                <p class="text-xl text-neutralsecondary max-w-2xl mx-auto">Данные основаны на production-тестах с AAA и инди-студиями</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="metric-card rounded-xl p-6 text-center">
+                    <div class="text-3xl font-orbitron font-bold text-accent1 mb-2">85%</div>
+                    <div class="text-neutralsecondary text-sm">Среднее сокращение полигонов</div>
+                    <div class="h-1 w-16 bg-gradient-to-r from-accent1 to-accent3 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
+                <div class="metric-card rounded-xl p-6 text-center">
+                    <div class="text-3xl font-orbitron font-bold text-accent2 mb-2">4.5x</div>
+                    <div class="text-neutralsecondary text-sm">Быстрее ручной работы</div>
+                    <div class="h-1 w-16 bg-gradient-to-r from-accent2 to-accent3 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
+                <div class="metric-card rounded-xl p-6 text-center">
+                    <div class="text-3xl font-orbitron font-bold text-accent3 mb-2">92%</div>
+                    <div class="text-neutralsecondary text-sm">Точность (минимум артефактов)</div>
+                    <div class="h-1 w-16 bg-gradient-to-r from-accent3 to-accent1 mx-auto mt-4 rounded-full"></div>
+                </div>
+                
+                <div class="metric-card rounded-xl p-6 text-center">
+                    <div class="text-3xl font-orbitron font-bold text-accent1 mb-2">15%</div>
+                    <div class="text-neutralsecondary text-sm">Необходимость ручной коррекции</div>
+                    <div class="h-1 w-16 bg-gradient-to-r from-accent1 to-accent2 mx-auto mt-4 rounded-full"></div>
+                </div>
+            </div>
+            
+            <div class="rounded-xl gradient-border p-1">
+                <div class="bg-gradient-to-br from-background to-accent3/5 p-8 rounded-lg">
+                    <h3 class="font-orbitron font-bold text-2xl mb-6 text-center">Сравнение времени: Ручная vs Автоматическая работа</h3>
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="md:w-5/12 mb-8 md:mb-0">
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-neutralsecondary">Ручная ретопология</span>
+                                    <span class="font-medium">~10 часов</span>
+                                </div>
+                                <div class="h-4 bg-accent2/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent2 w-full"></div>
+                                </div>
                             </div>
-                            <div class="demo-metric">
-                                <div class="demo-metric-value">6ч → 30мин</div>
-                                <div class="demo-metric-label">Время обработки</div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-neutralsecondary">RetopoFlow Автоматическая</span>
+                                    <span class="font-medium">~45 минут</span>
+                                </div>
+                                <div class="h-4 bg-accent1/20 rounded-full overflow-hidden">
+                                    <div class="h-full bg-accent1 w-3/12"></div>
+                                </div>
                             </div>
-                            <div class="demo-metric">
-                                <div class="demo-metric-value">0</div>
-                                <div class="demo-metric-label">Артефактов</div>
+                        </div>
+                        
+                        <div class="md:w-6/12 text-center">
+                            <div class="inline-block p-4 rounded-lg bg-accent1/10 border border-accent1/20">
+                                <div class="text-3xl font-orbitron font-bold text-accent1 mb-1">92.5%</div>
+                                <div class="text-neutralsecondary text-sm">Сэкономленного времени</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary">Загрузить свою модель</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Integration Section -->
+    <section id="integration" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Техническая интеграция</h2>
+                <p class="text-xl text-neutralsecondary max-w-2xl mx-auto">Беспроблемная интеграция API для автоматизации пайплайна и пользовательских рабочих процессов</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="lg:w-1/2">
+                    <div class="rounded-xl gradient-border p-1 h-full">
+                        <div class="bg-gradient-to-br from-background to-accent1/5 p-6 rounded-lg h-full">
+                            <h3 class="font-orbitron font-bold text-xl mb-4 flex items-center">
+                                <i class="fas fa-code text-accent1 mr-2"></i> Пример API
+                            </h3>
+                            <div class="bg-background rounded p-4 font-jetbrains text-sm overflow-x-auto">
+                                <div class="text-neutralsecondary">// Initialize RetopoFlow client</div>
+                                <div class="text-accent2">const</div> <div class="text-accent1">client</div> = <div class="text-accent2">new</div> <div class="text-neutraltext">RetopoFlowAPI</div>({
+                                <div class="text-neutralsecondary ml-4">apiKey: <div class="text-accent3">'your_api_key_here'</div>,</div>
+                                <div class="text-neutralsecondary ml-4">environment: <div class="text-accent3">'production'</div></div>
+                                });
+                                <br>
+                                <div class="text-neutralsecondary">// Process a model</div>
+                                <div class="text-accent2">const</div> <div class="text-neutraltext">result</div> = <div class="text-accent2">await</div> <div class="text-accent1">client</div>.processModel({
+                                <div class="text-neutralsecondary ml-4">inputFile: <div class="text-accent3">'model.obj'</div>,</div>
+                                <div class="text-neutralsecondary ml-4">targetPolycount: <div class="text-accent1">15000</div>,</div>
+                                <div class="text-neutralsecondary ml-4">preserveHardEdges: <div class="text-accent2">true</div>,</div>
+                                <div class="text-neutralsecondary ml-4">generateLODs: [<div class="text-accent1">10000</div>, <div class="text-accent1">5000</div>, <div class="text-accent1">2000</div>]</div>
+                                });
+                                <br>
+                                <div class="text-neutralsecondary">// Download result</div>
+                                <div class="text-accent2">await</div> <div class="text-accent1">client</div>.downloadResult(
+                                <div class="text-neutralsecondary ml-4"><div class="text-accent1">result</div>.id, </div>
+                                <div class="text-neutralsecondary ml-4"><div class="text-accent3">'optimized_model.fbx'</div></div>
+                                );
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="rounded-xl gradient-border p-1 h-full">
+                        <div class="bg-gradient-to-br from-background to-accent3/5 p-6 rounded-lg h-full">
+                            <h3 class="font-orbitron font-bold text-xl mb-4 flex items-center">
+                                <i class="fas fa-plug text-accent3 mr-2"></i> Варианты интеграции
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 rounded-md bg-accent1/10 flex items-center justify-center text-accent1 mr-3 mt-1 flex-shrink-0">
+                                        <i class="fas fa-cloud"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-orbitron font-medium mb-1">Cloud API</h4>
+                                        <p class="text-neutralsecondary text-sm">RESTful API для облачной обработки с автоматическим масштабированием.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 rounded-md bg-accent3/10 flex items-center justify-center text-accent3 mr-3 mt-1 flex-shrink-0">
+                                        <i class="fas fa-desktop"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-orbitron font-medium mb-1">On-Premise решение</h4>
+                                        <p class="text-neutralsecondary text-sm">Самостоятельно размещаемая версия для студий с требованиями безопасности.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 rounded-md bg-accent2/10 flex items-center justify-center text-accent2 mr-3 mt-1 flex-shrink-0">
+                                        <i class="fas fa-puzzle-piece"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-orbitron font-medium mb-1">Интеграция плагинов</h4>
+                                        <p class="text-neutralsecondary text-sm">Прямые плагины для Blender, Maya и 3ds Max.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-6 border-t border-accent3/20">
+                                <h4 class="font-orbitron font-medium mb-3">Поддерживаемые форматы</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-xs">OBJ</div>
+                                    <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-xs">FBX</div>
+                                    <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-xs">GLTF/GLB</div>
+                                    <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-xs">STL</div>
+                                    <div class="px-3 py-1 bg-accent1/10 text-accent1 rounded-full text-xs">PLY</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Cases Section -->
-    <section class="cases-section" id="cases">
-        <div class="container">
-            <h2>Реальные кейсы</h2>
-            <div class="cases-grid">
-                <div class="case-card">
-                    <div class="case-header">
-                        <h3 class="case-title">Mid-poly прицел для шутера</h3>
-                        <div class="case-stats">
-                            <div class="case-stat">
-                                <div class="case-stat-value">97.8%</div>
-                                <div class="case-stat-label">Сокращение полигонов</div>
+    <section id="cases" class="py-20 px-4 section-border bg-gradient-to-b from-background to-background/80">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Реальные кейсы</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="case-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                        <h3 class="font-orbitron font-bold text-xl mb-4 md:mb-0 text-accent1">Mid-poly прицел для шутера</h3>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-lg font-orbitron font-bold text-accent2">97.8%</div>
+                                <div class="text-neutralsecondary text-xs">Сокращение полигонов</div>
                             </div>
-                            <div class="case-stat">
-                                <div class="case-stat-value">30мин</div>
-                                <div class="case-stat-label">Время обработки</div>
+                            <div class="text-center">
+                                <div class="text-lg font-orbitron font-bold text-accent2">30мин</div>
+                                <div class="text-neutralsecondary text-xs">Время обработки</div>
                             </div>
                         </div>
                     </div>
-                    <div class="case-comparison">
+                    
+                    <div class="model-comparison mb-6">
                         <div class="comparison-container">
                             <img src="https://drive.google.com/thumbnail?id=19rhOj9bRtEE817D74eDlK6T9CBqPJGnd&sz=w2000" alt="До ретопологии" class="comparison-image">
                             <div class="comparison-label before-label">До</div>
@@ -1118,24 +837,30 @@
                             <div class="comparison-label after-label">После</div>
                         </div>
                     </div>
-                    <p class="case-description">Модель для популярного онлайн-шутера была оптимизирована с 875k до 19k полигонов с сохранением всех ключевых деталей и анимационных возможностей.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее о кейсе</a>
+                    
+                    <p class="text-neutralsecondary mb-6">Модель для популярного онлайн-шутера была оптимизирована с 875k до 19k полигонов с сохранением всех ключевых деталей и анимационных возможностей.</p>
+                    
+                    <button class="px-4 py-2 rounded-md font-medium border border-accent2 text-accent2 hover:bg-accent2/10 transition-all duration-300">
+                        Подробнее о кейсе
+                    </button>
                 </div>
-                <div class="case-card">
-                    <div class="case-header">
-                        <h3 class="case-title">Low-poly ассет для набора в kitbash</h3>
-                        <div class="case-stats">
-                            <div class="case-stat">
-                                <div class="case-stat-value">99.2%</div>
-                                <div class="case-stat-label">Сокращение полигонов</div>
+                
+                <div class="case-card rounded-xl p-6 bg-gradient-to-b from-background to-background/50">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                        <h3 class="font-orbitron font-bold text-xl mb-4 md:mb-0 text-accent1">Low-poly ассет для набора в kitbash</h3>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-lg font-orbitron font-bold text-accent2">99.2%</div>
+                                <div class="text-neutralsecondary text-xs">Сокращение полигонов</div>
                             </div>
-                            <div class="case-stat">
-                                <div class="case-stat-value">50мин</div>
-                                <div class="case-stat-label">Время обработки</div>
+                            <div class="text-center">
+                                <div class="text-lg font-orbitron font-bold text-accent2">50мин</div>
+                                <div class="text-neutralsecondary text-xs">Время обработки</div>
                             </div>
                         </div>
                     </div>
-                    <div class="case-comparison">
+                    
+                    <div class="model-comparison mb-6">
                         <div class="comparison-container">
                             <img src="https://drive.google.com/thumbnail?id=1b6nYKOa-Cf1WKh_77EumOPPsEVBT0w0d&sz=w2000" alt="До ретопологии" class="comparison-image">
                             <div class="comparison-label before-label">До</div>
@@ -1146,205 +871,346 @@
                             <div class="comparison-label after-label">После</div>
                         </div>
                     </div>
-                    <p class="case-description">Модель робота для персонального портфолио. Оптимизация модели производилась под потребность в создании набора тематических 3D моделей.</p>
-                    <a href="#" class="btn btn-secondary">Подробнее о кейсе</a>
+                    
+                    <p class="text-neutralsecondary mb-6">Модель робота для персонального портфолио. Оптимизация модели производилась под потребность в создании набора тематических 3D моделей.</p>
+                    
+                    <button class="px-4 py-2 rounded-md font-medium border border-accent2 text-accent2 hover:bg-accent2/10 transition-all duration-300">
+                        Подробнее о кейсе
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <div class="container">
-            <h2>Выберите план</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Indie</h3>
-                    <div class="pricing-price">$29<span class="pricing-period">/месяц</span></div>
-                    <p>Для небольших студий и фрилансеров</p>
-                    <ul class="pricing-features">
-                        <li>До 10 моделей в месяц</li>
-                        <li>Экспорт в FBX, OBJ</li>
-                        <li>Базовые профили движков</li>
-                        <li>Поддержка по email</li>
-                    </ul>
-                    <a href="#" class="btn btn-secondary">Начать</a>
+    <section id="pricing" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Выберите план</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="rounded-xl gradient-border p-1">
+                    <div class="bg-gradient-to-b from-background to-background/80 p-8 rounded-lg h-full">
+                        <h3 class="font-orbitron font-bold text-2xl mb-2">Indie</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$29</span>
+                            <span class="text-neutralsecondary ml-2">/месяц</span>
+                        </div>
+                        <p class="text-neutralsecondary mb-6">Для небольших студий и фрилансеров</p>
+                        
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>До 10 моделей в месяц</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Экспорт в FBX, OBJ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Базовые профили движков</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Поддержка по email</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full py-3 rounded-md font-medium border border-accent2 text-accent2 hover:bg-accent2/10 transition-all duration-300">
+                            Начать
+                        </button>
+                    </div>
                 </div>
-                <div class="pricing-card featured">
-                    <h3>Studio</h3>
-                    <div class="pricing-price">$149<span class="pricing-period">/месяц</span></div>
-                    <p>Для профессиональных студий</p>
-                    <ul class="pricing-features">
-                        <li>До 100 моделей в месяц</li>
-                        <li>Все форматы экспорта</li>
-                        <li>Расширенные профили</li>
-                        <li>Пакетная обработка</li>
-                        <li>Приоритетная поддержка</li>
-                    </ul>
-                    <a href="#" class="btn btn-primary">Начать</a>
+                
+                <div class="rounded-xl gradient-border p-1 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span class="px-3 py-1 bg-accent1 text-background text-sm font-medium rounded-full">Популярный</span>
+                    </div>
+                    <div class="bg-gradient-to-b from-background to-accent1/5 p-8 rounded-lg h-full">
+                        <h3 class="font-orbitron font-bold text-2xl mb-2">Studio</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-3xl font-bold">$149</span>
+                            <span class="text-neutralsecondary ml-2">/месяц</span>
+                        </div>
+                        <p class="text-neutralsecondary mb-6">Для профессиональных студий</p>
+                        
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>До 100 моделей в месяц</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Все форматы экспорта</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Расширенные профили</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Пакетная обработка</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Приоритетная поддержка</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full py-3 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 neon-glow">
+                            Начать
+                        </button>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="enterprise-price">По договоренности</div>
-                    <p>Для крупных проектов</p>
-                    <ul class="pricing-features">
-                        <li>Неограниченное количество моделей</li>
-                        <li>On-premise установка</li>
-                        <li>API доступ</li>
-                        <li>Кастомные профили</li>
-                        <li>Dedicated менеджер</li>
-                    </ul>
-                    <a href="#" class="btn btn-secondary">Связаться</a>
+                
+                <div class="rounded-xl gradient-border p-1">
+                    <div class="bg-gradient-to-b from-background to-background/80 p-8 rounded-lg h-full">
+                        <h3 class="font-orbitron font-bold text-2xl mb-2">Enterprise</h3>
+                        <div class="flex items-baseline mb-4">
+                            <span class="text-2xl font-bold text-accent1">По договоренности</span>
+                        </div>
+                        <p class="text-neutralsecondary mb-6">Для крупных проектов</p>
+                        
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Неограниченное количество моделей</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>On-premise установка</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>API доступ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Кастомные профили</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-accent1 mr-3"></i>
+                                <span>Dedicated менеджер</span>
+                            </li>
+                        </ul>
+                        
+                        <button class="w-full py-3 rounded-md font-medium border border-accent3 text-accent3 hover:bg-accent3/10 transition-all duration-300">
+                            Связаться
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Community Section -->
-    <section class="contact-section" id="community">
-        <div class="container">
-            <h2>Присоединяйтесь к сообществу</h2>
-            <p>Общайтесь с другими разработчиками, делитесь опытом и получайте помощь от нашей команды и сообщества.</p>
-            <div class="demo-container">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <a href="#" class="btn btn-primary" style="margin-right: 15px;">Discord</a>
-                    <a href="#" class="btn btn-secondary" style="margin-right: 15px;">Telegram</a>
-                    <a href="#" class="btn btn-secondary">Форум</a>
+    <section id="community" class="py-20 px-4 section-border">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-6">Присоединяйтесь к сообществу</h2>
+            <p class="text-xl text-neutralsecondary mb-8 max-w-2xl mx-auto">Общайтесь с другими разработчиками, делитесь опытом и получайте помощь от нашей команды и сообщества.</p>
+            
+            <div class="rounded-xl gradient-border p-1 max-w-2xl mx-auto">
+                <div class="bg-gradient-to-br from-background to-accent3/5 p-8 rounded-lg">
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+                        <button class="px-6 py-3 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 neon-glow">
+                            <i class="fab fa-discord mr-2"></i> Discord
+                        </button>
+                        <button class="px-6 py-3 rounded-md font-medium border border-accent2 text-accent2 hover:bg-accent2/10 transition-all duration-300">
+                            <i class="fab fa-telegram mr-2"></i> Telegram
+                        </button>
+                        <button class="px-6 py-3 rounded-md font-medium border border-accent3 text-accent3 hover:bg-accent3/10 transition-all duration-300">
+                            <i class="fas fa-comments mr-2"></i> Форум
+                        </button>
+                    </div>
+                    <p class="text-neutralsecondary text-sm">
+                        Присоединяйтесь к нашему Discord-серверу или общайтесь в Telegram-чате
+                    </p>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 14px;">
-                    Присоединяйтесь к нашему Discord-серверу или общайтесь в Telegram-чате
-                </p>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <h2>Свяжитесь с нами</h2>
-            <p>Есть вопросы или хотите обсудить сотрудничество? Оставьте заявку и мы свяжемся с вами в ближайшее время.</p>
+    <section id="contact" class="py-20 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-16">
+                <h2 class="font-orbitron font-bold text-3xl md:text-4xl mb-4">Свяжитесь с нами</h2>
+                <p class="text-xl text-neutralsecondary max-w-2xl mx-auto">Есть вопросы или хотите обсудить сотрудничество? Оставьте заявку и мы свяжемся с вами в ближайшее время.</p>
+            </div>
             
-            <form class="contact-form">
-                <div class="form-group">
-                    <label for="name">Имя</label>
-                    <input type="text" id="name" class="form-control" required>
+            <div class="rounded-xl gradient-border p-1">
+                <div class="bg-gradient-to-br from-background to-accent1/5 p-8 rounded-lg">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-neutraltext mb-2">Имя</label>
+                                <input type="text" id="name" class="w-full px-4 py-3 bg-background/50 border border-accent3/20 rounded-md text-neutraltext focus:outline-none focus:ring-2 focus:ring-accent1 focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-neutraltext mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 bg-background/50 border border-accent3/20 rounded-md text-neutraltext focus:outline-none focus:ring-2 focus:ring-accent1 focus:border-transparent" required>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="company" class="block text-neutraltext mb-2">Компания (необязательно)</label>
+                            <input type="text" id="company" class="w-full px-4 py-3 bg-background/50 border border-accent3/20 rounded-md text-neutraltext focus:outline-none focus:ring-2 focus:ring-accent1 focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-neutraltext mb-2">Сообщение</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 bg-background/50 border border-accent3/20 rounded-md text-neutraltext focus:outline-none focus:ring-2 focus:ring-accent1 focus:border-transparent" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-3 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 neon-glow">
+                            Отправить сообщение
+                        </button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="company">Компания (необязательно)</label>
-                    <input type="text" id="company" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="message">Сообщение</label>
-                    <textarea id="message" class="form-control" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Отправить сообщение</button>
-            </form>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-about">
-                    <a href="#" class="footer-logo">RetopoFlow</a>
-                    <p class="footer-description">Автоматическая ретопология для игровых моделей. Сократите время подготовки ассетов к продакшену в разы.</p>
-                    <div class="footer-actions">
-                        <a href="#" class="btn btn-primary">Попробовать демо</a>
+    <footer class="py-12 px-4 bg-background/80">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 rounded-md bg-gradient-to-br from-accent1 to-accent3 flex items-center justify-center">
+                            <i class="fas fa-bolt text-white text-sm"></i>
+                        </div>
+                        <span class="font-orbitron text-xl font-bold">Retopo<span class="text-accent1">Flow</span></span>
                     </div>
+                    <p class="text-neutralsecondary text-sm mb-6">Автоматическая ретопология для игровых моделей. Сократите время подготовки ассетов к продакшену в разы.</p>
+                    <button class="px-4 py-2 rounded-md font-medium bg-gradient-to-r from-accent1 to-accent3 text-background hover:opacity-90 transition-all duration-300 text-sm neon-glow">
+                        Попробовать демо
+                    </button>
                 </div>
-                <div class="footer-links">
-                    <h4>Продукт</h4>
-                    <ul>
-                        <li><a href="#features">Возможности</a></li>
-                        <li><a href="#pricing">Цены</a></li>
-                        <li><a href="#demo">Демо</a></li>
-                        <li><a href="#">Обновления</a></li>
+                
+                <div>
+                    <h4 class="font-orbitron font-medium mb-4">Продукт</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Возможности</a></li>
+                        <li><a href="#pricing" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Цены</a></li>
+                        <li><a href="#demo" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Демо</a></li>
+                        <li><a href="#" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Обновления</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Ресурсы</h4>
-                    <ul>
-                        <li><a href="#community">Сообщество</a></li>
-                        <li><a href="#">Блог</a></li>
-                        <li><a href="#cases">Кейсы</a></li>
-                        <li><a href="#contact">Поддержка</a></li>
+                
+                <div>
+                    <h4 class="font-orbitron font-medium mb-4">Ресурсы</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#community" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Сообщество</a></li>
+                        <li><a href="#" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Блог</a></li>
+                        <li><a href="#cases" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Кейсы</a></li>
+                        <li><a href="#contact" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Поддержка</a></li>
                     </ul>
                 </div>
-                <div class="footer-links">
-                    <h4>Компания</h4>
-                    <ul>
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Карьера</a></li>
-                        <li><a href="#contact">Контакты</a></li>
-                        <li><a href="#">Политика конфиденциальности</a></li>
+                
+                <div>
+                    <h4 class="font-orbitron font-medium mb-4">Компания</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">О нас</a></li>
+                        <li><a href="#" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Карьера</a></li>
+                        <li><a href="#contact" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Контакты</a></li>
+                        <li><a href="#" class="text-neutralsecondary hover:text-accent1 transition-colors duration-300 text-sm">Политика конфиденциальности</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
+            
+            <div class="border-t border-accent3/20 pt-8 text-center text-neutralsecondary text-sm">
                 <p>&copy; 2025 RetopoFlow. Все права защищены.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Простая анимация для элементов при прокрутке
+        // Before/After Slider
         document.addEventListener('DOMContentLoaded', function() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
+            const beforeAfterContainer = document.querySelector('.before-after-container');
+            if (beforeAfterContainer) {
+                const handle = beforeAfterContainer.querySelector('.slider-handle');
+                const beforeImage = beforeAfterContainer.querySelector('.before-image');
+                let isDragging = false;
+                
+                function updateSlider(clientX) {
+                    const containerRect = beforeAfterContainer.getBoundingClientRect();
+                    const containerLeft = containerRect.left;
+                    const containerWidth = containerRect.width;
+                    
+                    let newLeft = (clientX - containerLeft) / containerWidth;
+                    newLeft = Math.max(0, Math.min(1, newLeft));
+                    
+                    beforeImage.style.width = `${newLeft * 100}%`;
+                }
+                
+                handle.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    e.preventDefault();
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        updateSlider(e.clientX);
                     }
                 });
-            }, observerOptions);
-
-            // Анимируем карточки при появлении
-            const cards = document.querySelectorAll('.problem-card, .feature-card, .pricing-card, .case-card');
-            cards.forEach(card => {
-                card.style.opacity = 0;
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(card);
-            });
-
-            // Анимация для hero секции
-            const heroText = document.querySelector('.hero-text');
-            const heroVisual = document.querySelector('.hero-visual');
-            
-            if (heroText) {
-                heroText.style.opacity = 0;
-                heroText.style.transform = 'translateX(-20px)';
-                heroText.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 
-                setTimeout(() => {
-                    heroText.style.opacity = 1;
-                    heroText.style.transform = 'translateX(0)';
-                }, 300);
+                document.addEventListener('mouseup', function() {
+                    isDragging = false;
+                });
+                
+                // Touch events for mobile
+                handle.addEventListener('touchstart', function(e) {
+                    isDragging = true;
+                    e.preventDefault();
+                });
+                
+                document.addEventListener('touchmove', function(e) {
+                    if (isDragging && e.touches.length > 0) {
+                        updateSlider(e.touches[0].clientX);
+                    }
+                });
+                
+                document.addEventListener('touchend', function() {
+                    isDragging = false;
+                });
+                
+                // Keyboard accessibility
+                handle.setAttribute('tabindex', '0');
+                handle.addEventListener('keydown', function(e) {
+                    const currentWidth = parseFloat(beforeImage.style.width || '50');
+                    
+                    if (e.key === 'ArrowLeft') {
+                        beforeImage.style.width = `${Math.max(0, currentWidth - 5)}%`;
+                    } else if (e.key === 'ArrowRight') {
+                        beforeImage.style.width = `${Math.min(100, currentWidth + 5)}%`;
+                    }
+                });
             }
             
-            if (heroVisual) {
-                heroVisual.style.opacity = 0;
-                heroVisual.style.transform = 'translateX(20px)';
-                heroVisual.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                
-                setTimeout(() => {
-                    heroVisual.style.opacity = 1;
-                    heroVisual.style.transform = 'translateX(0)';
-                }, 600);
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
             }
-
-            // Обработка формы
-            const contactForm = document.querySelector('.contact-form');
+            
+            // Reduced motion preference
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reducedMotion) {
+                document.querySelectorAll('*').forEach(el => {
+                    el.style.animationPlayState = 'paused';
+                });
+            }
+            
+            // Form submission
+            const contactForm = document.querySelector('form');
             if (contactForm) {
                 contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
