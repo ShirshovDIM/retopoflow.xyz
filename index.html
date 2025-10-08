@@ -99,48 +99,92 @@
             position: relative;
             width: 100%;
             height: 400px;
-            overflow: hidden;
             border-radius: 8px;
+            overflow: hidden;
         }
         
-        .before-image, .after-image {
+        .comparison-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .after-image, .before-image {
             position: absolute;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
+        .after-image {
+            object-fit: cover;
+        }
+
         .before-image {
-            width: 50%;
-            overflow: hidden;
+            clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
         }
         
         .slider-handle {
             position: absolute;
             left: 50%;
             top: 0;
-            bottom: 0;
-            width: 4px;
-            background: #00E5FF;
-            cursor: ew-resize;
             transform: translateX(-50%);
-        }
-        
-        .slider-handle::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 40px;
-            height: 40px;
-            background: #0B0F17;
-            border: 2px solid #00E5FF;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
+            width: 65px;
+            height: 100%;
+            background: transparent;
+            cursor: ew-resize;
+            z-index: 12;
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Убираем transition для позиционирования */
+            transition: none;
+        }
+
+        .slider-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
+            /* Оставляем transition только для визуальных эффектов, не для позиции */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 13;
+        }
+
+        .slider-divider {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(-50%);
+            z-index: 11;
+            /* Убираем transition для позиционирования, оставляем только для визуальных эффектов */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .slider-arrows {
+            position: relative;
+            z-index: 14;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 8px;
+            pointer-events: none;
+        }
+
+        .slider-arrows svg {
+            fill: none;
+            stroke: #0B0F17; /* Темный цвет для контраста на белом фоне */
+            stroke-width: 2;
         }
         
         .slider-handle::before {
@@ -223,7 +267,7 @@
             left: 15px;
             color: #FF2D95;
         }
-        
+
         .after-label {
             right: 15px;
             color: #00E5FF;
@@ -261,6 +305,12 @@
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
         
         @media (max-width: 768px) {
@@ -375,20 +425,26 @@
                 <div class="md:w-1/2 relative">
                     <div class="relative rounded-xl overflow-hidden subtle-glow gradient-border p-1 animate-float">
                         <div class="before-after-container">
-                            <div class="before-image">
-                                <img src="https://drive.google.com/thumbnail?id=1pXWFgiULeHlL63p9oyOb6EcFBMpLWLFf&sz=w2000" alt="До ретопологии" class="w-full h-full object-cover">
-                                <div class="absolute top-4 left-4 bg-background/70 px-3 py-1 rounded text-sm font-medium text-accent2">До</div>
+                            <div class="comparison-wrapper">
+                                <img src="https://drive.google.com/thumbnail?id=1jpv0ditNDu9XBm3KDzEvJuPCyO5fKhhg&sz=w2000" alt="После ретопологии" class="after-image">
+                                <img src="https://drive.google.com/thumbnail?id=1pXWFgiULeHlL63p9oyOb6EcFBMpLWLFf&sz=w2000" alt="До ретопологии" class="before-image">
+                                <div class="slider-divider" id="slider-divider"></div>
+                                <div class="slider-handle" id="slider-handle">
+                                    <div class="slider-circle">
+                                        <div class="slider-arrows">
+                                            <svg width="16" height="16" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+                                            <svg width="16" height="16" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18" /></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comparison-label before-label">До</div>
+                                <div class="comparison-label after-label">После</div>
                             </div>
-                            <div class="after-image">
-                                <img src="https://drive.google.com/thumbnail?id=1jpv0ditNDu9XBm3KDzEvJuPCyO5fKhhg&sz=w2000" alt="После ретопологии" class="w-full h-full object-cover">
-                                <div class="absolute top-4 right-4 bg-background/70 px-3 py-1 rounded text-sm font-medium text-accent1">После</div>
-                            </div>
-                            <div class="slider-handle"></div>
                         </div>
                     </div>
                     
                     <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent1/10 rounded-full blur-xl"></div>
-                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-accent3/10 rounded-full blur-xl"></div>
+                    <div class="absolute -top-4 -left-4 w-32 h-32 bg-accent3/10 rounded-full blur-xl"></div>
                 </div>
             </div>
         </div>
@@ -600,7 +656,7 @@
             <div class="rounded-xl gradient-border p-1 mb-8">
                 <div class="bg-gradient-to-br from-background to-accent3/5 p-8 rounded-lg">
                     <div class="sketchfab-embed-wrapper">
-                        <iframe title="Sci-fi Helmet - Retopology Example" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/8376a1256d1542649f1fba3b91a474c1/embed?autospin=1&autostart=1&ui_theme=dark"> </iframe>
+                        <iframe title="Sci-fi Helmet - Retopology Example" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/8348839d996f4cf9a7443f92b92d10c8/embed?autospin=1&autostart=1&ui_theme=dark"> </iframe>
                     </div>
                     
                     <div class="text-center mt-6">
@@ -990,10 +1046,6 @@
                                 <i class="fas fa-check text-accent1 mr-3"></i>
                                 <span>Кастомные профили</span>
                             </li>
-                            <li class="flex items-center">
-                                <i class="fas fa-check text-accent1 mr-3"></i>
-                                <span>Dedicated менеджер</span>
-                            </li>
                         </ul>
                         
                         <button class="w-full py-3 rounded-md font-medium border border-accent3 text-accent3 hover:bg-accent3/10 transition-all duration-300">
@@ -1130,94 +1182,99 @@
     <script>
         // Before/After Slider
         document.addEventListener('DOMContentLoaded', function() {
-            const beforeAfterContainer = document.querySelector('.before-after-container');
-            if (beforeAfterContainer) {
-                const handle = beforeAfterContainer.querySelector('.slider-handle');
-                const beforeImage = beforeAfterContainer.querySelector('.before-image');
-                let isDragging = false;
-                
-                function updateSlider(clientX) {
-                    const containerRect = beforeAfterContainer.getBoundingClientRect();
-                    const containerLeft = containerRect.left;
-                    const containerWidth = containerRect.width;
-                    
-                    let newLeft = (clientX - containerLeft) / containerWidth;
-                    newLeft = Math.max(0, Math.min(1, newLeft));
-                    
-                    beforeImage.style.width = `${newLeft * 100}%`;
+            const container = document.querySelector('.before-after-container');
+            const beforeImage = container.querySelector('.before-image');
+            const handle = document.getElementById('slider-handle');
+            const divider = document.getElementById('slider-divider');
+            const circle = handle.querySelector('.slider-circle');
+            let isDragging = false;
+
+            function interpolateColor(color1, color2, factor) {
+                const result = color1.slice();
+                for (let i = 0; i < 3; i++) {
+                    result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
                 }
+                return result;
+            }
+
+            function updateSliderColor(pos) {
+                const blueRatio = pos / 100; // 0 слева, 1 справа
+                const redRatio = 1 - blueRatio; // 1 слева, 0 справа
+                const blueColor = [0, 229, 255];   // accent1
+                const redColor = [255, 45, 149];   // accent2
+                const whiteColor = [255, 255, 255]; // белый
+                const circleColor = interpolateColor(
+                    whiteColor, 
+                    blueRatio > 0.5 ? redColor : blueColor, 
+                    Math.abs(blueRatio - 0.5) * 2
+                );
                 
-                handle.addEventListener('mousedown', function(e) {
+                const lineColor = interpolateColor(blueColor, redColor, blueRatio);
+                
+                const circleColorString = `rgb(${circleColor[0]}, ${circleColor[1]}, ${circleColor[2]})`;
+                const lineColorString = `rgb(${lineColor[0]}, ${lineColor[1]}, ${lineColor[2]})`;
+                
+                const circleGlow = blueRatio > 0.5 
+                    ? `0 0 15px rgba(255, 45, 149, ${0.5 + blueRatio * 0.5}), 0 0 30px rgba(255, 45, 149, ${0.3 + blueRatio * 0.3})`
+                    : `0 0 15px rgba(0, 229, 255, ${0.5 + redRatio * 0.5}), 0 0 30px rgba(0, 229, 255, ${0.3 + redRatio * 0.3})`;
+                
+                const lineGlow = `0 0 10px ${lineColorString}, 0 0 20px rgba(${lineColor[0]}, ${lineColor[1]}, ${lineColor[2]}, 0.5)`;
+                
+                circle.style.background = circleColorString;
+                circle.style.boxShadow = circleGlow;
+                
+                divider.style.background = lineColorString;
+                divider.style.boxShadow = lineGlow;
+            }
+
+            function slideMove(x) {
+                const containerRect = container.getBoundingClientRect();
+                let pos = ((x - containerRect.left) / containerRect.width) * 100;
+                pos = Math.max(0, Math.min(100, pos));
+
+                beforeImage.style.clipPath = `polygon(0 0, ${pos}% 0, ${pos}% 100%, 0 100%)`;
+                handle.style.left = `${pos}%`;
+                divider.style.left = `${pos}%`;
+                
+                updateSliderColor(pos);
+            }
+
+            updateSliderColor(50);
+
+            handle.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+            
+            window.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            window.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                slideMove(e.clientX);
+            });
+
+            handle.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                e.preventDefault();
+            });
+            
+            window.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+            
+            window.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                slideMove(e.touches[0].clientX);
+            });
+
+            container.addEventListener('mousedown', function(e) {
+                if (e.target === container || e.target.classList.contains('comparison-wrapper')) {
                     isDragging = true;
-                    e.preventDefault();
-                });
-                
-                document.addEventListener('mousemove', function(e) {
-                    if (isDragging) {
-                        updateSlider(e.clientX);
-                    }
-                });
-                
-                document.addEventListener('mouseup', function() {
-                    isDragging = false;
-                });
-                
-                // Touch events for mobile
-                handle.addEventListener('touchstart', function(e) {
-                    isDragging = true;
-                    e.preventDefault();
-                });
-                
-                document.addEventListener('touchmove', function(e) {
-                    if (isDragging && e.touches.length > 0) {
-                        updateSlider(e.touches[0].clientX);
-                    }
-                });
-                
-                document.addEventListener('touchend', function() {
-                    isDragging = false;
-                });
-                
-                // Keyboard accessibility
-                handle.setAttribute('tabindex', '0');
-                handle.addEventListener('keydown', function(e) {
-                    const currentWidth = parseFloat(beforeImage.style.width || '50');
-                    
-                    if (e.key === 'ArrowLeft') {
-                        beforeImage.style.width = `${Math.max(0, currentWidth - 5)}%`;
-                    } else if (e.key === 'ArrowRight') {
-                        beforeImage.style.width = `${Math.min(100, currentWidth + 5)}%`;
-                    }
-                });
-            }
-            
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', function() {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-            
-            // Reduced motion preference
-            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (reducedMotion) {
-                document.querySelectorAll('*').forEach(el => {
-                    el.style.animationPlayState = 'paused';
-                });
-            }
-            
-            // Form submission
-            const contactForm = document.querySelector('form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
-                    contactForm.reset();
-                });
-            }
+                    slideMove(e.clientX);
+                }
+            });
         });
     </script>
 </body>
